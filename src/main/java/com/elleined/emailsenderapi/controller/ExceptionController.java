@@ -1,7 +1,8 @@
 package com.elleined.emailsenderapi.controller;
 
-import com.elleined.emailsenderapi.request.APIResponse;
-import jakarta.mail.MessagingException;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -9,8 +10,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.io.IOException;
-import java.util.List;
+import com.elleined.emailsenderapi.request.APIResponse;
+
+import jakarta.mail.MessagingException;
 
 @ControllerAdvice
 public class ExceptionController {
@@ -26,13 +28,15 @@ public class ExceptionController {
 
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<APIResponse> handleMessagingException(MessagingException ex) {
-        var responseMessage = new APIResponse(HttpStatus.SERVICE_UNAVAILABLE, "Cannot send email! Probably theres something wrong with the mail service! " + ex.getMessage());
+        var responseMessage = new APIResponse(HttpStatus.SERVICE_UNAVAILABLE,
+                "Cannot send email! Probably theres something wrong with the mail service! " + ex.getMessage());
         return new ResponseEntity<>(responseMessage, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<APIResponse> handleIOException(IOException ex) {
-        var responseMessage = new APIResponse(HttpStatus.NOT_ACCEPTABLE, "Cannot send email with attachement! " + ex.getMessage());
+        var responseMessage = new APIResponse(HttpStatus.NOT_ACCEPTABLE,
+                "Cannot send email with attachement! " + ex.getMessage());
         return new ResponseEntity<>(responseMessage, HttpStatus.NOT_ACCEPTABLE);
     }
 }
