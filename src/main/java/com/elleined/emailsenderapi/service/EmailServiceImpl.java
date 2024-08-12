@@ -1,11 +1,9 @@
 package com.elleined.emailsenderapi.service;
 
-import com.elleined.emailsenderapi.request.MessageRequest;
-import com.elleined.emailsenderapi.request.otp.OTPMessageRequest;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,13 +11,20 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Objects;
+import com.elleined.emailsenderapi.request.MessageRequest;
+import com.elleined.emailsenderapi.request.otp.OTPMessageRequest;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
+
+    @Autowired
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
@@ -66,7 +71,8 @@ public class EmailServiceImpl implements EmailService {
         messageHelper.setSubject(messageRequest.getSubject());
         messageHelper.setText(messageRequest.getMessageBody());
 
-        messageHelper.addAttachment(Objects.requireNonNull(attachment.getOriginalFilename()), new ByteArrayResource(attachment.getBytes()));
+        messageHelper.addAttachment(Objects.requireNonNull(attachment.getOriginalFilename()),
+                new ByteArrayResource(attachment.getBytes()));
 
         javaMailSender.send(mimeMessage);
         log.debug("Email with attachment sent successfully!");

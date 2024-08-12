@@ -1,19 +1,20 @@
 package com.elleined.emailsenderapi.controller;
 
-import com.elleined.emailsenderapi.dto.OTPMessageDTO;
-import com.elleined.emailsenderapi.request.otp.OTPMessageRequest;
-import com.elleined.emailsenderapi.service.EmailService;
-import jakarta.mail.MessagingException;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
+import com.elleined.emailsenderapi.dto.OTPMessageDTO;
+import com.elleined.emailsenderapi.request.otp.OTPMessageRequest;
+import com.elleined.emailsenderapi.service.EmailService;
+
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping
@@ -27,16 +28,16 @@ public class OTPMailController {
         LocalDateTime expiration = LocalDateTime.now().plusSeconds(otpMessageRequest.getPlusExpirationSeconds());
         int otp = secureRandom.nextInt(100_000, 999_999);
         String message = String.format("""
-                    To verify your account, please enter the following
-                    verification code on %s
-                    
-                    %d
-                    
-                    The verification code expires in %s minutes. If you do not
-                    request this code, please ignore these message.
-                    
-                    %s
-                    """, "Your app name", otp, expiration, "Your app name");
+                To verify your account, please enter the following
+                verification code on %s
+
+                %d
+
+                The verification code expires in %s minutes. If you do not
+                request this code, please ignore these message.
+
+                %s
+                """, "Your app name", otp, expiration, "Your app name");
 
         emailService.send(otpMessageRequest, message);
 

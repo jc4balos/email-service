@@ -1,10 +1,10 @@
 package com.elleined.emailsenderapi.request;
 
+import java.time.LocalDateTime;
 
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 public class APIResponse {
