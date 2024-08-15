@@ -1,4 +1,4 @@
-package com.elleined.emailsenderapi.controller;
+package com.elleined.emailsenderapi.controller.v1;
 
 import java.io.IOException;
 

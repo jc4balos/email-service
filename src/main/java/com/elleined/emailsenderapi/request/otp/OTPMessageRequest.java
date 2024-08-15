@@ -4,13 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
+@Builder
 public class OTPMessageRequest {
 
     @Email(message = "Please provide a proper email!")
@@ -20,13 +17,10 @@ public class OTPMessageRequest {
     @NotBlank(message = "Email subject cannot be blank, null, or empty!")
     private String subject;
 
+    @NotBlank(message = "Body must not be empty")
+    private String body;
+
     @Positive(message = "Please provide seconds to be added in expiration time from date time now")
     private int plusExpirationSeconds;
 
-    @Builder
-    public OTPMessageRequest(String receiver, String subject, int plusExpirationSeconds) {
-        this.receiver = receiver;
-        this.subject = subject;
-        this.plusExpirationSeconds = plusExpirationSeconds;
-    }
 }
