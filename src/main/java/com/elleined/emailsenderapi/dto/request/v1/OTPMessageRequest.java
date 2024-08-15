@@ -17,6 +17,9 @@ public class OTPMessageRequest {
     @NotBlank(message = "Email subject cannot be blank, null, or empty!")
     private String subject;
 
+    @NotBlank(message = "Application name is required")
+    private String appName;
+
     @NotBlank(message = "Body must not be empty")
     private String body;
 
