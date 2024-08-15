@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/mail")
 @RequiredArgsConstructor
 public class OTPMailController {
     private final EmailService emailService;
