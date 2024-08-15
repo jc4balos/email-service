@@ -1,4 +1,4 @@
-package com.elleined.emailsenderapi.controller;
+package com.elleined.emailsenderapi.exception;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.elleined.emailsenderapi.request.APIResponse;
+import com.elleined.emailsenderapi.dto.response.v1.APIResponse;
 
 import jakarta.mail.MessagingException;
 

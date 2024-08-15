@@ -1,15 +1,12 @@
-package com.elleined.emailsenderapi.dto;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+package com.elleined.emailsenderapi.dto.response.v1;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@Getter
-@Setter
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
 public class OTPMessageDTO {
     private String receiver;
 
@@ -19,11 +16,4 @@ public class OTPMessageDTO {
 
     private LocalDateTime expiration;
 
-    @Builder
-    public OTPMessageDTO(String receiver, String subject, int otp, LocalDateTime expiration) {
-        this.receiver = receiver;
-        this.subject = subject;
-        this.otp = otp;
-        this.expiration = expiration;
-    }
 }

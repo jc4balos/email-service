@@ -1,4 +1,4 @@
-package com.elleined.emailsenderapi.request;
+package com.elleined.emailsenderapi.dto.response.v1;
 
 import java.time.LocalDateTime;
 
