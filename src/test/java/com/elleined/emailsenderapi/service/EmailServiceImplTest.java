@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import com.elleined.emailsenderapi.service.v1.EmailServiceImpl;
+
 @ExtendWith(MockitoExtension.class)
 class EmailServiceImplTest {
 

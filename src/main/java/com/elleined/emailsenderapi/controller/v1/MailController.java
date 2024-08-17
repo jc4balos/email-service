@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.elleined.emailsenderapi.request.MessageRequest;
-import com.elleined.emailsenderapi.service.EmailService;
+import com.elleined.emailsenderapi.dto.request.v1.MessageRequest;
+import com.elleined.emailsenderapi.service.v1.EmailService;
 
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;

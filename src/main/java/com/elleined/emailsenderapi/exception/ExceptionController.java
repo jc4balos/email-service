@@ -1,12 +1,9 @@
 package com.elleined.emailsenderapi.exception;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -17,19 +14,10 @@ import jakarta.mail.MessagingException;
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(BindException.class)
-    public ResponseEntity<List<APIResponse>> handleBindException(BindException ex) {
-        List<APIResponse> errors = ex.getBindingResult().getAllErrors().stream()
-                .map(ObjectError::getDefaultMessage)
-                .map(errorMessage -> new APIResponse(HttpStatus.BAD_REQUEST, errorMessage))
-                .toList();
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<APIResponse> handleMessagingException(MessagingException ex) {
         var responseMessage = new APIResponse(HttpStatus.SERVICE_UNAVAILABLE,
-                "Cannot send email! Probably theres something wrong with the mail service! " + ex.getMessage());
+                "An error occured on email service " + ex.getMessage());
         return new ResponseEntity<>(responseMessage, HttpStatus.SERVICE_UNAVAILABLE);
     }
 

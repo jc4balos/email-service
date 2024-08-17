@@ -1,16 +1,16 @@
-package com.elleined.emailsenderapi.controller;
+package com.elleined.emailsenderapi.controller.v1;
 
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.elleined.emailsenderapi.dto.OTPMessageDTO;
-import com.elleined.emailsenderapi.request.otp.OTPMessageRequest;
-import com.elleined.emailsenderapi.service.EmailService;
+import com.elleined.emailsenderapi.dto.request.v1.OtpMessageRequest;
+import com.elleined.emailsenderapi.exception.ApplicationExceptionHandler;
+import com.elleined.emailsenderapi.service.v1.EmailService;
 
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -21,31 +21,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OTPMailController {
     private final EmailService emailService;
-    private final SecureRandom secureRandom;
 
     @PostMapping("/otp-mail")
-    public OTPMessageDTO send(@Valid @RequestBody OTPMessageRequest otpMessageRequest) throws MessagingException {
-        LocalDateTime expiration = LocalDateTime.now().plusSeconds(otpMessageRequest.getPlusExpirationSeconds());
-        int otp = secureRandom.nextInt(100_000, 999_999);
-        String message = String.format("""
-                To verify your account, please enter the following
-                verification code on %s
+    public ResponseEntity<?> send(@Valid @RequestBody OtpMessageRequest otpMessageRequest, BindingResult bindingResult)
+            throws MessagingException {
 
-                %d
+        try {
+            if (!bindingResult.hasErrors()) {
+                return new ResponseEntity<>(emailService.send(otpMessageRequest),
+                        HttpStatus.OK);
+            } else {
+                return ApplicationExceptionHandler.handleBadRequest(bindingResult);
+            }
+        } catch (Exception e) {
+            return ApplicationExceptionHandler.handleCustomException(e);
+        }
 
-                The verification code expires in %s minutes. If you do not
-                request this code, please ignore these message.
-
-                %s
-                """, "Your app name", otp, expiration, "Your app name");
-
-        emailService.send(otpMessageRequest, message);
-
-        return OTPMessageDTO.builder()
-                .receiver(otpMessageRequest.getReceiver())
-                .subject(otpMessageRequest.getSubject())
-                .expiration(expiration)
-                .otp(otp)
-                .build();
     }
 }
