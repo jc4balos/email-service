@@ -2,15 +2,16 @@ package com.elleined.emailsenderapi.dto.response.v1;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-public class OTPMessageDTO {
-    private String receiver;
-
-    private String subject;
+@NoArgsConstructor
+@AllArgsConstructor
+public class OtpMessageResponse {
 
     private int otp;
 

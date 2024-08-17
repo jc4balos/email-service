@@ -1,4 +1,4 @@
-package com.elleined.emailsenderapi.request.otp;
+package com.elleined.emailsenderapi.dto.request.v1;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,22 +8,19 @@ import lombok.Data;
 
 @Data
 @Builder
-public class OTPMessageRequest {
+public class OtpMessageRequest {
 
     @Email(message = "Please provide a proper email!")
     @NotBlank(message = "Receiver email cannot be blank, null, or empty!")
     private String receiver;
 
-    @NotBlank(message = "Email subject cannot be blank, null, or empty!")
-    private String subject;
+    @NotBlank(message = "Please insert the reason for OTP Verification")
+    private String service;
 
     @NotBlank(message = "Application name is required")
     private String appName;
 
-    @NotBlank(message = "Body must not be empty")
-    private String body;
-
-    @Positive(message = "Please provide seconds to be added in expiration time from date time now")
-    private int plusExpirationSeconds;
+    @Positive(message = "Please provide the OTP timeout in minutes")
+    private int timeout;
 
 }
